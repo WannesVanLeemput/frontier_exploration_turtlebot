@@ -46,16 +46,11 @@ int main(int argc, char* argv[]) {
   // Initialize the ros node
   ros::init(argc, argv, "frontierExplorer");
   // Variable to store user input
-  int userChoice;
+  int userChoice = 1;
   std::cout << "Welcome to Turtlebot Explorer" << std::endl;
   std::cout << "Once you are satisfied with the map press (ctr+c)" << std::endl;
   std::cout << "To save the map rosrun map_server map_saver -f my_map"
             << std::endl;
-  std::cout
-      << "Would you like to take linear path (0) or spiral path finder (1)?"
-      " (Enter 0 or 1): ";
-  // read the userInput
-  std::cin >> userChoice;
   // create the PathPlanning object
   PathPlanning pathPlanning;
 
@@ -65,7 +60,6 @@ int main(int argc, char* argv[]) {
       pathPlanning.linearPathGenerator();
     }
   }
-  std::cin.get();
   if (userChoice == 1) {
     while (ros::ok()) {
       // run the spiral PathPlanning behaviour

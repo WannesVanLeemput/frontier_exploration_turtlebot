@@ -40,7 +40,7 @@ PathPlanning::PathPlanning() {
   ROS_INFO("Creating the Explorer behaviour...");
   // Set speed parameters
   linearSpeed = 0.2;
-  angularSpeed = 1;
+  angularSpeed = 1.5;
   // register to publish topic on /cmd_vel
   // to send move velocity commands to the turtlebot
   pubVel = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1000);
@@ -57,7 +57,7 @@ PathPlanning::PathPlanning() {
   msg.angular.y = 0.0;
   msg.angular.z = 0.0;
   count = 0;
-  MaxCount = 15;
+  MaxCount = 25;
   // Stop the turtlebot
   pubVel.publish(msg);
 }
@@ -75,7 +75,7 @@ PathPlanning::~PathPlanning() {
 }
 
 void PathPlanning::linearPathGenerator() {
-  ros::Rate loop_rate(2);
+  ros::Rate loop_rate(5);
   //  cheks if the obstacles are in the front of the bot
   if (collisiondetector.checkObstacles() == 1) {
     //  then rotate in CCW
@@ -103,7 +103,7 @@ void PathPlanning::linearPathGenerator() {
 
 void PathPlanning::spiralPathGenerator() {
   // Set up the publisher rate to 2 Hz
-  ros::Rate loop_rate(2);
+  ros::Rate loop_rate(4);
   // counter to count the discrete steps to achieve
   // a spiral behaviour
   if (count == MaxCount) {
@@ -147,7 +147,7 @@ void PathPlanning::spiralPathGenerator() {
         }
         if (collisiondetector.checkObstacles() == 0) {
           msg.linear.x = 0.0;
-          msg.angular.z = angularSpeed;
+          msg.angular.z = angularSpeed*3;
         }
 
         // publish the msg to the /cmd_vel topic
